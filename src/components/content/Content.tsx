@@ -28,7 +28,7 @@ function Content() {
     };
 
     axios
-      .post('https://localhost:7190/api/Contents/post', newContent, {
+      .post('http://localhost:80/api/contents/post', newContent, {
         headers: {
           'Content-Type': 'application/json',
         },
