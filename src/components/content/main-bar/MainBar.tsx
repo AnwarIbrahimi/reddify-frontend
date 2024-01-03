@@ -9,7 +9,6 @@ import { Menu } from "@mui/material";
 import ArrowDropDown from "@mui/icons-material/ArrowDropDown";
 
 import "./MainBar.css";
-import PostsContent from "../postscontent/PostContent";
 import Posts from "../posts/Posts";
 
 export default function MainBar() {
