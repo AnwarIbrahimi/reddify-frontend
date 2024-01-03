@@ -11,7 +11,6 @@ export default function Content() {
   return (
     <div className="content">
       <TrendingToday />
-      <span className="popular-posts-title">Create Posts</span>
       <CreatePosts/>
       <div className="bars-wrapper">
         <span className="popular-posts-title">Popular Posts</span>
