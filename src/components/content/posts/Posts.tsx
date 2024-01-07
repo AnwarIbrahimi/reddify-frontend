@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import "./Posts.css";
 
@@ -13,48 +13,65 @@ import { Share } from "@mui/icons-material";
 import { Bookmark } from "@mui/icons-material";
 import { MoreHoriz } from "@mui/icons-material";
 import Video from "../../video/Video";
+import axios from "axios";
+
+interface Post {
+  name: string;
+  publisher: number;
+  description: number;
+}
 
 export default function Posts() {
+  const [posts, setPosts] = useState<Post[]>([]);
+
+  useEffect(() => {
+    axios.get('http://52.188.131.24/api/contents/all')
+      .then((response) => {
+        setPosts(response.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching posts:', error);
+      });
+  }, []);
+
+
   return (
     <div className="posts-wrapper">
-      {posts.map((post, index) => (
-        <div className="post">
-          <div className="post-sidebar">
-            <ArrowUpward className="upvote" />
-            <span>{post.upvotes}</span>
-            <ArrowDownward className="downvote" />
-          </div>
-          <div className="post-title">
-            <img src={post.subreddit.image_src} />
-            <span className="subreddit-name">r/{post.subreddit.name}</span>
-            <span className="post-user">Posted by</span>
-            <span className="post-user underline">u/{post.username}</span>
-            <div className="spacer"></div>
-            <Button label="+ JOIN" />
-          </div>
-          <div className="post-body">
-            <span className="title">{post.title}</span>
-            {post.video_src && <Video src={post.video_src} duration={post.duration} />}
-            {post.image_src && <img src={post.image_src} />}
-            {post.description && <span className="description">{post.description}</span>}
-          </div>
-          <div className="post-footer">
-            <div className="comments footer-action">
-              <ModeComment className="comment-icon" />
-              <span>{post.comments} Comments</span>
-            </div>
-            <div className="share footer-action">
-              <Share />
-              <span>Share</span>
-            </div>
-            <div className="save footer-action">
-              <Bookmark />
-              <span>Save</span>
-            </div>
-            <MoreHoriz className="more-icon footer-action" />
-          </div>
+    {posts.map((post, index) => (
+      <div className="post" key={index}>
+        <div className="post-sidebar">
+          <ArrowUpward className="upvote" />
+          <span></span>
+          <ArrowDownward className="downvote" />
         </div>
-      ))}
-    </div>
-  );
+        <div className="post-title">
+          <span className="subreddit-name">r/{post.publisher}</span>
+          <span className="post-user">Posted by</span>
+          <span className="post-user underline">u/</span>
+          <div className="spacer"></div>
+          <Button label="+ JOIN" />
+        </div>
+        <div className="post-body">
+          <span className="title">{post.name}</span>
+          {post.description && <span className="description">{post.description}</span>}
+        </div>
+        <div className="post-footer">
+          <div className="comments footer-action">
+            <ModeComment className="comment-icon" />
+            <span>Comments</span>
+          </div>
+          <div className="share footer-action">
+            <Share />
+            <span>Share</span>
+          </div>
+          <div className="save footer-action">
+            <Bookmark />
+            <span>Save</span>
+          </div>
+          <MoreHoriz className="more-icon footer-action" />
+        </div>
+      </div>
+    ))}
+  </div>
+);
 }

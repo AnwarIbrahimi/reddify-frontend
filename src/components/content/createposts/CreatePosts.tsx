@@ -28,7 +28,7 @@ function CreatePosts() {
     };
 
     axios
-      .post('http://localhost:80/api/contents/post', newContent, {
+      .post('http://52.188.131.24/api/contents/post', newContent, {
         headers: {
           'Content-Type': 'application/json',
         },
