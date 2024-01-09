@@ -14,7 +14,10 @@ export default function Actions() {
       </Link>
       <Link to="/signup">
       <Button label="SIGN UP" />
-      </Link>        
+      </Link>
+      {/* <Link to="/signin">
+      <Button secondary label="SIGN IN GOOGLE" />
+      </Link>                   */}
       <div className="profile">
         <PersonIcon className="hoverable" />
         <ArrowDropDownIcon className="hoverable" />

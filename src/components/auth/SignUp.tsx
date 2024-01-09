@@ -1,16 +1,19 @@
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import { auth } from "../../firebase";
+import { useNavigate } from "react-router-dom";
 
 const SignUp: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const navigate = useNavigate();
 
   const signUp = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         console.log(userCredential);
+        navigate("/");
       })
       .catch((error) => {
         console.log(error);
