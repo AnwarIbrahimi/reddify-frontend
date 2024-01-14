@@ -25,7 +25,7 @@ export default function Posts() {
   const [posts, setPosts] = useState<Post[]>([]);
 
   useEffect(() => {
-    axios.get('http://52.188.131.24/api/contents/all')
+    axios.get('http://20.185.104.164/api/contents/all')
       .then((response) => {
         setPosts(response.data);
       })

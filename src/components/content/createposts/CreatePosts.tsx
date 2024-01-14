@@ -28,7 +28,7 @@ function CreatePosts() {
     };
 
     axios
-      .post('http://52.188.131.24/api/contents/post', newContent, {
+      .post('http://20.185.104.164/api/contents/post', newContent, {
         headers: {
           'Content-Type': 'application/json',
         },
