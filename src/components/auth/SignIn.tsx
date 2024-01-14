@@ -25,12 +25,14 @@ const SignIn: React.FC = () => {
       <form onSubmit={signIn}>
         <h1>Log In to your Account</h1>
         <input
+          id="email"
           type="email"
           placeholder="Enter your email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
         <input
+          id="password"
           type="password"
           placeholder="Enter your password"
           value={password}
