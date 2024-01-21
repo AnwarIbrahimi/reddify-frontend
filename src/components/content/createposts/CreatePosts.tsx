@@ -2,6 +2,7 @@ import React, { useState, ChangeEvent, FormEvent } from 'react';
 import axios from "axios";
 import { Button, TextField, Container } from '@mui/material';
 import './CreatePosts.css';
+import { getAuth } from 'firebase/auth';
 
 interface FormData {
   name: string;
@@ -17,6 +18,7 @@ const initialFormData: FormData = {
 
 function CreatePosts() {
   const [formData, setFormData] = useState<FormData>(initialFormData);
+  const auth = getAuth();
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -25,6 +27,7 @@ function CreatePosts() {
       name: formData.name,
       publisher: formData.publisher,
       description: formData.description,
+      uid: auth.currentUser?.uid
     };
 
     axios

@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import { auth } from "../../firebase";
 import { useNavigate } from "react-router-dom";
@@ -8,16 +8,46 @@ const SignUp: React.FC = () => {
   const [password, setPassword] = useState<string>("");
   const navigate = useNavigate();
 
-  const signUp = (e: FormEvent<HTMLFormElement>) => {
+  const signUp = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        console.log(userCredential);
-        navigate("/");
-      })
-      .catch((error) => {
-        console.log(error);
+
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+
+      // After successful signup, get the UID
+      const user = userCredential.user;
+      const uid = user.uid;
+
+      // Send the UID and other user information to your backend
+      await sendUserToBackend({ uid, email /* add other user properties here */ });
+
+      console.log("Signup successful");
+      navigate("/");
+    } catch (error) {
+      console.error("Signup error:", error);
+    }
+  };
+
+  const sendUserToBackend = async (user: { uid: string; email: string }) => {
+    try {
+      const response = await fetch("http://20.185.104.164/api/User/createUser", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user),
       });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("User creation successful", data);
+      } else {
+        const errorData = await response.json();
+        console.error("User creation failed", errorData);
+      }
+    } catch (error) {
+      console.error("Error sending user to backend", error);
+    }
   };
 
   const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
